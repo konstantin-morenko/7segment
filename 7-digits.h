@@ -8,6 +8,7 @@
 #define SYM_7 = 0x07;
 #define SYM_8 = 0x7f;
 #define SYM_9 = 0x6f;
+#define SYM_DOT = 0x80;
 #define SYM_A = 0x77;
 #define SYM_B = 0x7d;
 #define SYM_C = 0x39;
