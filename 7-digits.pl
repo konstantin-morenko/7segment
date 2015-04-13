@@ -23,23 +23,26 @@ for($i = 7; $i >= 0; $i--) {
 # making transmutting
 open inputSyms, "<$inputSyms" or die "Can't open input symbols file $inputSyms";
 while(<inputSyms>) {
-    ($name, $code) = split / /;
-    $out = "";
-    for($j = 0; $j <= 7; $j++) {
-	if($code =~ m/$WORD[$j]/) {
-	    $out .= $on;
+    chop();
+    if(!m/^#/ || !m//) {
+	($name, $code) = split / /;
+	$out = "";
+	for($j = 0; $j <= 7; $j++) {
+	    if($code =~ m/$WORD[$j]/) {
+		$out .= $on;
+	    }
+	    else {
+		$out .= $off;
+	    }
+	}
+	# encoding to 0x<HEX>
+	# write output
+	if($out =~ m/^0000/) { # first zero
+	    printf outputSyms "#define SYM" . $name . " 0x0%x\n", oct("0b" . $out);
 	}
 	else {
-	    $out .= $off;
+	    printf outputSyms "#define SYM" . $name . " 0x%x\n", oct("0b" . $out);
 	}
-    }
-    # encoding to 0x<HEX>
-    # write output
-    if($out =~ m/^0000/) { # first zero
-	printf outputSyms "#define SYM" . $name . " 0x0%x\n", oct("0b" . $out);
-    }
-    else {
-	printf outputSyms "#define SYM" . $name . " 0x%x\n", oct("0b" . $out);
     }
 }
 

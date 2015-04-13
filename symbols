@@ -1,4 +1,7 @@
-off 
+#[main]
+off
+
+#[segments]
 Sa a
 Sb b
 Sc c
@@ -7,6 +10,8 @@ Se e
 Sf f
 Sg g
 Sh h
+
+#[digits]
 0 abcdef
 1 bc
 2 abdeg
@@ -18,6 +23,8 @@ Sh h
 8 abcdefg
 9 abcdfg
 dot h
+
+#[letters]
 A abcefg
 b cdefg
 C adef
@@ -44,6 +51,8 @@ W bdf
 X cfg
 Y bcdfg
 Z adg
+
+#[special]
 up a
 dn d
 deg abfg
