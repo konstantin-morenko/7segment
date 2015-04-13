@@ -1,0 +1,71 @@
+{
+
+
+
+
+
+
+    "extra_strings": [
+
+
+
+
+
+
+        "BLOCKED-BY:d4556a15-8af0-4828-befa-7aa2b973598d", 
+
+
+
+
+
+
+        "BLOCKED-BY:ed21e6a4-39d6-4d22-a298-8d573ceca7f1", 
+
+
+
+
+
+
+        "BLOCKED-BY:f1515be7-4572-4401-9d35-18abd19c8348"
+
+
+
+
+
+
+    ], 
+
+
+
+
+
+
+    "severity": "target", 
+
+
+
+
+
+
+    "status": "open", 
+
+
+
+
+
+
+    "summary": "v1.0", 
+
+
+
+
+
+
+    "time": "Mon, 13 Apr 2015 06:21:57 +0000"
+
+
+
+
+
+
+}

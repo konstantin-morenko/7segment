@@ -19,7 +19,7 @@
 
 
 
-        "BLOCKS:ed21e6a4-39d6-4d22-a298-8d573ceca7f1"
+        "BLOCKS:18e2bd43-c27e-4b6b-a925-4ada65c631d8"
 
 
 
@@ -40,7 +40,7 @@
 
 
 
-    "severity": "minor", 
+    "severity": "serious", 
 
 
 
@@ -54,14 +54,14 @@
 
 
 
-    "summary": "Add variable SYM prefix", 
+    "summary": "Documentation", 
 
 
 
 
 
 
-    "time": "Mon, 13 Apr 2015 05:46:22 +0000"
+    "time": "Mon, 13 Apr 2015 06:16:26 +0000"
 
 
 

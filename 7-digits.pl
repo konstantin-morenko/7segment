@@ -1,9 +1,5 @@
 #!/usr/bin/perl
 
-# TODO
-# sectors (nums, signs, letters)
-# control of errors in segment string
-
 # reading input file <SYM_NAME> <SEGMENTS ON hgfedcba>
 $inputSyms = "./symbols";
 $outputSyms = "./7-dSymbols.h";
@@ -17,6 +13,12 @@ if($IN_WORD =~ s/-//) {
 }
 open outputSyms, ">$outputSyms" or die "Can't open output file $outputSyms";
 print outputSyms "// segments sequence: $IN_WORD\n";
+if($off) {
+    print outputSyms "// inversion (common anodes)\n";
+}
+else {
+    print outputSyms "// no inversion (common cathodes)\n";
+}
 for($i = 7; $i >= 0; $i--) {
     $WORD[$i] = chop($IN_WORD);
 }
@@ -24,24 +26,29 @@ for($i = 7; $i >= 0; $i--) {
 open inputSyms, "<$inputSyms" or die "Can't open input symbols file $inputSyms";
 while(<inputSyms>) {
     chop();
-    if(!m/^#/ || !m//) {
-	($name, $code) = split / /;
-	$out = "";
-	for($j = 0; $j <= 7; $j++) {
-	    if($code =~ m/$WORD[$j]/) {
-		$out .= $on;
+    if(!m/^#/ && !m/^$/) {
+	if(m/\[.*\]/) { # section
+	    print outputSyms "\n// $_\n";
+	}
+	else { # symbol
+	    ($name, $code) = split / /;
+	    $out = "";
+	    for($j = 0; $j <= 7; $j++) {
+		if($code =~ m/$WORD[$j]/) {
+		    $out .= $on;
+		}
+		else {
+		    $out .= $off;
+		}
+	    }
+	    # encoding to 0x<HEX>
+	    # write output
+	    if($out =~ m/^0000/) { # first zero
+		printf outputSyms "#define SYM" . $name . " 0x0%x\n", oct("0b" . $out);
 	    }
 	    else {
-		$out .= $off;
+		printf outputSyms "#define SYM" . $name . " 0x%x\n", oct("0b" . $out);
 	    }
-	}
-	# encoding to 0x<HEX>
-	# write output
-	if($out =~ m/^0000/) { # first zero
-	    printf outputSyms "#define SYM" . $name . " 0x0%x\n", oct("0b" . $out);
-	}
-	else {
-	    printf outputSyms "#define SYM" . $name . " 0x%x\n", oct("0b" . $out);
 	}
     }
 }

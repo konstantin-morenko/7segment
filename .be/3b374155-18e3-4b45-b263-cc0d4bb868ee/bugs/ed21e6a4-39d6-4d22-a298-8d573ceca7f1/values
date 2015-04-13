@@ -1,0 +1,92 @@
+{
+
+
+
+
+
+
+    "extra_strings": [
+
+
+
+
+
+
+        "BLOCKED-BY:4c2fdb2a-c5d6-493b-a8ec-a14c72fe5f09", 
+
+
+
+
+
+
+        "BLOCKED-BY:9763dd1e-476d-48d1-823d-7307dd02c097", 
+
+
+
+
+
+
+        "BLOCKED-BY:ae2fe590-ea94-478c-91f9-2bc429c7bec0", 
+
+
+
+
+
+
+        "BLOCKED-BY:ba763805-c1cc-4db7-b5ba-1b377efbf9b5", 
+
+
+
+
+
+
+        "BLOCKED-BY:edfe16a9-9a6b-4bea-8601-b3d278af6e40", 
+
+
+
+
+
+
+        "BLOCKS:18e2bd43-c27e-4b6b-a925-4ada65c631d8"
+
+
+
+
+
+
+    ], 
+
+
+
+
+
+
+    "severity": "target", 
+
+
+
+
+
+
+    "status": "open", 
+
+
+
+
+
+
+    "summary": "Parameters", 
+
+
+
+
+
+
+    "time": "Mon, 13 Apr 2015 06:15:34 +0000"
+
+
+
+
+
+
+}
