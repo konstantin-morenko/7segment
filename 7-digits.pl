@@ -2,7 +2,7 @@
 
 use Switch;
 
-my($inWord, $verbose, $on, $off, @word, $comments, $define);
+my($inWord, $verbose, $on, $off, @word, $comments, $define, $symPrefix, @sections, @fileSections, $sectionCurrent);
 $on = 1; $off = 0;
 
 sub encodeSymbol {
@@ -30,6 +30,26 @@ sub outputInfo {
 
 sub passingArguments {
     # checking verbose
+    if(m/^--help/ ~~ @ARGV) {
+	print "Parameters:\n";
+	print "--verbose\n";
+	print "    extended output\n";
+	print "--segment-sequence=<8 a-h letters sequence>\n";
+	print "    set segment sequence for port (required)\n";
+	print "--inversion\n";
+	print "    invert output segments (typical for commmon anodes)\n";
+	print "--output=<filename>\n";
+	print "    set output to file <filename>\n";
+	print "--comments=<comment prefix>\n";
+	print "    set comment prefix to file\n";
+	print "--define=<definition>\n";
+	print "    set definition prefix\n";
+	print "--symbol-prefix=<prefix>\n";
+	print "    set symbol prefix\n";
+	print "--sections=<section1[,section2...]>\n";
+	print "    set sections to convert\n";
+	exit;
+    }
     if(m/^--verbose/ ~~ @ARGV) {
 	$verbose = 1;
 	print "--verbose\n";
@@ -55,7 +75,15 @@ sub passingArguments {
 	if(s/^--define=//) {
 	    $define = $_;
 	    if($verbose) { print "--define=$define\n"; }
-	}   
+	}
+	if(s/^--symbol-prefix=//) {
+	    $symPrefix = $_;
+	    if($verbose) { print "--symbol-prefix=$symPrefix\n"; }
+	}
+	if(s/^--sections=//) {
+	    @sections = split /,/;
+	    if($verbose) { print "--sections=@sections\n"; }
+	}
     }
     if(!@word) {
 	print "Have no --segment-sequence; aborting\n";
@@ -67,14 +95,21 @@ sub passingArguments {
     }
     open outputFile, ">$outputFile" or die "Can't open output file $outputFile";
     if($comments =~ m/^$/) {
-	if($verbose) { print "Have no comments prefix, using c++ single line (//)\n"; }
 	$comments = "// ";
+	if($verbose) { print "Have no comments prefix, using c++ single line ($comments)\n"; }
     }
     if($define =~ m/^$/) {
-	if($verbose) { print "Have no definition, using c++ (#define)\n"; }
 	$define = "#define ";
+	if($verbose) { print "Have no definition, using c++ ($define)\n"; }
     }
-
+    if($symPrefix =~ m/^$/) {
+	$symPrefix = "SYM";
+	if($verbose) { print "Have no symbol prefix, using default (SYM)\n"; }
+    }
+    if(!@sections) {
+	@sections = ("main", "segments", "digits", "letters", "special");
+	if($verbose) { print "Have no section definition, using default (@sections)\n"; }
+    }
 }
 
 sub passingSegments {
@@ -111,12 +146,23 @@ while(<inputSyms>) {
 	case /^\#/ {} # comments
 	case /^$/ {} # empty lines
 	case /\[.*\]/ { # section
-	    print outputFile "\n" . $comments . "$_\n";
+	    s/\[//; s/\]//;
+	    $sectionCurrent = $_;
+	    if(m/$sectionCurrent/ ~~ @sections) { print outputFile "\n" . $comments . "[$_]\n"; }
+	    push(@fileSections, $sectionCurrent);
 	}
 	else { # symbol
-	    encodeSymbol();
-	    printSymbol();
+	    if(m/$sectionCurrent/ ~~ @sections) { # only if turned on
+		encodeSymbol();
+		printSymbol();
+	    }
 	}
+    }
+}
+
+foreach(@sections) {
+    if(!(m/$_/ ~~ @fileSections)) {
+	print "Section '$_' have no definition in file $inputSyms\n";
     }
 }
 
