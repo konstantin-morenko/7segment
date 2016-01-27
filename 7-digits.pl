@@ -34,7 +34,7 @@ sub passingArguments {
 	print "Parameters:\n";
 	print "--verbose\n";
 	print "    extended output\n";
-	print "--segment-sequence=<8 a-h letters sequence>\n";
+	print "--segment-sequence=<8 a-h letters sequence 7-0>\n";
 	print "    set segment sequence for port (required)\n";
 	print "--inversion\n";
 	print "    invert output segments (typical for commmon anodes)\n";
