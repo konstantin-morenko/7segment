@@ -1,6 +1,7 @@
 #!/usr/bin/perl
 
 use Switch;
+use Config::Simple;
 
 my($inWord, $verbose, $on, $off, @word, $comments, $define, $symPrefix, @sections, @fileSections, $sectionCurrent);
 $on = 1; $off = 0;
@@ -129,6 +130,33 @@ sub passingSegments {
 	}
 	else { $word[$i] = $symbol; }
     }
+}
+
+Config::Simple->import_from('7digits.conf', \%Config);
+
+if(exists($Config{"Segments.Sequence"})) {
+    $inWord = $Config{"Segments.Sequence"};
+    passingSegments();
+}
+if(exists($Config{"Segments.Commons"})) {
+    if($Config{"Segments.Commons"} =~ m/Anodes/) {
+	$on = 0; $off = 1;
+    }
+    if($Config{"Segments.Commons"} =~ m/Cathodes/) {
+	$on = 1; $off = 0;
+    }
+}
+if(exists($Config{"Segments.Output file"})) {
+    $outputFile = $Config{"Segments.Output file"};
+}
+if(exists($Config{"Segments.Comment prefix"})) {
+    $comments = $Config{"Segments.Comment prefix"};
+}
+if(exists($Config{"Segments.Definition"})) {
+    $define = $Config{"Segments.Definition"};
+}
+if(exists($Config{"Segments.Symbol prefix"})) {
+    $symPrefix = $Config{"Segments.Symbol prefix"};
 }
 
 passingArguments();
