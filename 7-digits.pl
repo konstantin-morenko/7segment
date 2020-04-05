@@ -16,9 +16,8 @@ sub encodeSymbol {
 }
 
 sub printSymbol {
-    print outputFile $define . "SYM" . $name . " 0x";
-    if($out =~ m/^0000/) { print outputFile "0"; } # first zero
-    printf outputFile "%x\n", oct("0b" . $out);
+    print outputFile $define . $symPrefix . $name . " 0b";
+    printf outputFile "%08b\n", oct("0b" . $out);
 }
 
 sub outputInfo {
@@ -105,7 +104,7 @@ sub passingArguments {
     }
     if($symPrefix =~ m/^$/) {
 	$symPrefix = "SYM";
-	if($verbose) { print "Have no symbol prefix, using default (SYM)\n"; }
+	if($verbose) { print "Have no symbol prefix, using default ($symPrefix)\n"; }
     }
     if(!@sections) {
 	@sections = ("main", "segments", "digits", "letters", "special");
