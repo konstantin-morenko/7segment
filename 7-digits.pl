@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-use Switch;
+use feature 'switch';
 use Config::Simple;
 
 my($inWord, $verbose, $on, $off, @word, $comments, $define, $symPrefix, @sections, @fileSections, $sectionCurrent);
@@ -170,16 +170,16 @@ open inputSyms, "<$inputSyms" or die "Can't open input symbols file $inputSyms";
 outputInfo($inWord, $off);
 while(<inputSyms>) {
     chop();
-    switch($_) {
-	case /^\#/ {} # comments
-	case /^$/ {} # empty lines
-	case /\[.*\]/ { # section
+    given($_) {
+	when (/^\#/) {} # comments
+	when (/^$/) {} # empty lines
+	when (/\[.*\]/) { # section
 	    s/\[//; s/\]//;
 	    $sectionCurrent = $_;
 	    if(m/$sectionCurrent/ ~~ @sections) { print outputFile "\n" . $comments . "[$_]\n"; }
 	    push(@fileSections, $sectionCurrent);
 	}
-	else { # symbol
+	default { # symbol
 	    if(m/$sectionCurrent/ ~~ @sections) { # only if turned on
 		encodeSymbol();
 		printSymbol();
